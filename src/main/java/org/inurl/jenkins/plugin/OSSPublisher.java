@@ -144,6 +144,9 @@ public class OSSPublisher extends Publisher implements SimpleBuildStep {
         path.copyTo(outputStream);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         logger.println("uploading [" + path.getRemote() + "] to [" + realKey + "]");
+        // upload use public-read permission
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setObjectAcl(CannedAccessControlList.PublicRead);
         client.putObject(bucketName, realKey, inputStream);
     }
 
